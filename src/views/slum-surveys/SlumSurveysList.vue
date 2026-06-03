@@ -1,9 +1,11 @@
 <template>
   <div>
+    <!-- عنوان الصفحة الرئيسي الصافي -->
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold text-text-primary">إدارة حصر العشوائيات</h1>
     </div>
 
+    <!-- نموذج إضافة مستهدف جديد - يظهر فقط لمن يملك الصلاحية -->
     <div
       v-if="authStore.can('survey.create')"
       class="mb-8 bg-surface-section p-6 rounded-xl border border-surface-border"
@@ -17,13 +19,17 @@
       />
     </div>
 
+    <!-- مكون الفلاتر المتقدمة مدمج به زر الإطلاق والتعطيل تفاعلياً للمصفوفة المفلترة -->
     <SlumSurveyFilters
       v-model:maritalStatusFilter="maritalStatusFilter"
       v-model:bankFilter="bankFilter"
       v-model:familySizeFilter="familySizeFilter"
       v-model:searchQuery="searchQuery"
+      :disable-print="loading || slumSurveys.length === 0"
+      @print="handlePrintReport"
     />
 
+    <!-- جدول عرض سجلات الحصر الممررة من المخزن -->
     <SlumSurveysTable
       :slum-surveys="slumSurveys"
       :pagination="pagination"
@@ -33,6 +39,7 @@
       @delete-survey="openDeleteDialog"
     />
 
+    <!-- نافذة تعديل بيانات السجل الحالي -->
     <SlumSurveyModal
       v-if="isModalOpen"
       v-model="isModalOpen"
@@ -41,6 +48,7 @@
       @save="handleEdit"
     />
 
+    <!-- نافذة تأكيد الحذف الطري (Soft Delete) -->
     <AppConfirmDialog
       v-model="isDeleteDialogOpen"
       title="تأكيد حذف سجل الحصر"
@@ -108,6 +116,24 @@ watch([maritalStatusFilter, bankFilter, familySizeFilter], () => {
 onMounted(() => {
   handlePageChange()
 })
+
+// === دالة تجهيز وإطلاق نافذة التقرير المستقلة ===
+const handlePrintReport = () => {
+  if (slumSurveys.value.length === 0) return
+
+  const printPayload = {
+    reportData: slumSurveys.value,
+    filters: {
+      marital_status: maritalStatusFilter.value,
+      bank: bankFilter.value,
+      family_size: familySizeFilter.value,
+    },
+    search: searchQuery.value,
+  }
+
+  sessionStorage.setItem('slumSurveysPrintData', JSON.stringify(printPayload))
+  window.open('/print/slum-surveys', '_blank')
+}
 
 // === إدارة نموذج الإضافة المدمج (صلاحية الإنشاء) ===
 const isCreating = ref(false)

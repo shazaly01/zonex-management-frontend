@@ -1,3 +1,4 @@
+//src\services\dashboardService.js
 import apiClient from './apiClient'
 
 const resource = '/dashboard'

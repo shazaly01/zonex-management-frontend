@@ -37,6 +37,13 @@ const routes = [
     meta: { requiresAuth: true, layout: 'empty' }, // تأكد أن التخطيط لا يحتوي على Sidebar أو Navbar
   },
 
+  {
+    path: '/print/slum-surveys',
+    name: 'PrintSlumSurveys',
+    component: () => import('@/views/slum-surveys/SlumSurveysReportView.vue'),
+    meta: { requiresAuth: true, layout: 'empty' },
+  },
+
   // --- المسارات المحمية (تتطلب مصادقة) ---
   {
     path: '/app',
