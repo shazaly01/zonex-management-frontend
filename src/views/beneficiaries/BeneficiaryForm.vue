@@ -19,9 +19,7 @@
             placeholder="ادخل الرقم الوطني"
             required
           />
-          <p v-if="errors.national_id" class="text-rose-500 text-xs mt-1 font-bold">
-            الرقم الوطني مطلوب
-          </p>
+          <p v-if="errors.national_id" class="text-rose-500 text-xs mt-1 font-bold">الرقم الوطني</p>
         </div>
 
         <AppInput
