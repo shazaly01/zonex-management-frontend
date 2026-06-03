@@ -116,19 +116,13 @@
         </div>
 
         <div>
-          <label
-            for="survey-housing-condition"
-            class="block text-sm font-bold text-text-primary mb-2"
-          >
-            وصف الحالة العامة للسكن
-          </label>
-          <textarea
+          <AppTextarea
             id="survey-housing-condition"
+            label="وصف الحالة العامة للسكن"
             v-model="form.housing_condition"
-            rows="3"
-            class="w-full px-4 py-2.5 rounded-lg border border-surface-border bg-surface-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 resize-none"
             placeholder="اكتب وصفًا دقيقًا للهيكل الإنشائي أو الأضرار الموجودة بالعقار العشوائي..."
-          ></textarea>
+            :rows="3"
+          />
         </div>
       </div>
     </div>
@@ -171,10 +165,11 @@
 <script setup>
 import { ref, watch, reactive } from 'vue'
 
-// استيراد مكونات الـ UI المعتمدة بمشروعك
+// استيراد مكونات الـ UI المعتمدة بمشروعك بما فيها المكون الجديد الممرر من قبلك
 import AppInput from '@/components/ui/AppInput.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppDropdown from '@/components/ui/AppDropdown.vue'
+import AppTextarea from '@/components/ui/AppTextarea.vue'
 
 const props = defineProps({
   initialData: {
@@ -211,7 +206,7 @@ const createFreshForm = () => ({
   marital_status: '',
   family_book_number: '',
   family_paper_number: '',
-  family_members_count: 0, // القيمة الافتراضية كما تم إقرارها في الـ Migration
+  family_members_count: 0,
   current_address: '',
   area: '',
   housing_condition: '',

@@ -1,13 +1,12 @@
-<!--src\components\ui\AppInput.vue-->
+<!--src\components\ui\AppInput.vue--->
 <template>
   <div>
-    <!-- [مُعدَّل] تم تطبيق كلاسات الوضعين الفاتح والليلي -->
-    <label
-      v-if="label"
-      :for="id"
-      class="block text-sm font-medium text-gray-700 dark:text-text-secondary mb-1"
-      >{{ label }}</label
-    >
+    <div v-if="label" class="flex justify-between items-center mb-1">
+      <label :for="id" class="block text-sm font-medium text-gray-700 dark:text-text-secondary">
+        {{ label }}
+      </label>
+      <slot name="label-append"></slot>
+    </div>
     <input
       :id="id"
       :type="type"
@@ -15,7 +14,9 @@
       @input="$emit('update:modelValue', $event.target.value)"
       :placeholder="placeholder"
       :required="required"
-      class="block w-full rounded-md shadow-sm transition-colors duration-200 bg-gray-50 border-2 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-surface-ground dark:border-surface-border dark:text-text-primary dark:placeholder:text-text-muted dark:focus:ring-primary dark:focus:border-primary"
+      :disabled="disabled"
+      :dir="dir"
+      class="block w-full rounded-xl shadow-sm py-2.5 px-4 transition-all duration-200 bg-gray-50 border-2 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-surface-ground dark:border-emerald-500/40 dark:text-text-primary dark:placeholder:text-text-muted dark:focus:ring-2 dark:focus:ring-emerald-400 dark:focus:border-emerald-400 dark:shadow-[0_0_15px_rgba(52,211,153,0.1)] disabled:opacity-60 disabled:cursor-not-allowed"
     />
   </div>
 </template>
@@ -45,6 +46,14 @@ defineProps({
   required: {
     type: Boolean,
     default: false,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  dir: {
+    type: String,
+    default: null,
   },
 })
 
